@@ -1,0 +1,202 @@
+
+<h1>INGRESO DE ARTICULOS - ALMACÉN UDRA</h1>
+
+<!-- Content area -->
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+
+        <form class="form-inline" role="form">
+                <div class="form-group">
+                        <label for="lIngreso"><h5>TIPO DE INGRESO</h5></label>      
+                        <select class="browser-default" name="tipoingreso" (change)="cargartipoIng($event.target.value)">
+                            <option value="A">INGRESO DE ARTICULOS DE ESCRITORIO</option>
+                            <option value="E">INGRESO DE ARTICULOS ELECTRONICOS</option>
+                            <option value="L">INGRESO DE LEGAJOS</option>
+                            <!--<option value="D">DEVOLUCION DE EMBALAJE</option>-->
+                        </select>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                <div class="form-group">
+                        <label for="lAlmacen2"><h5> AÑO</h5></label>      
+                            <select #anio id="selectanio" class="browser-default" name="anios" >
+                        <option *ngFor="let e of anios" >{{ e.ano_eje }}</option>          
+                            </select>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                <div class="form-group">
+                    <label><h5>NRO DOCUMENTO</h5></label>
+                    <!--<input type="text" value="{{dato}}" list="documento" />-->
+
+               <!--     <input  #numpecosa id="input1"  (keyup.enter)="capturaEvento($event,anio.value)" placeholder="NRO. PECOSA" type="text" list="documento" autocomplete="off"/> -->
+
+ 
+                <!-- <input  type="text"  #numpecosa name="numpecosa" maxlength="6"  id="pin" pattern="^0[1-9]|[1-9]\d$" required  (keyup.enter)="capturaEvento($event,anio.value)" placeholder="NRO. PECOSA" />-->
+                <input type="text"  #numpecosa name="numpecosa" maxlength="6" pattern="[0-9.]+" type="text"  placeholder="NRO. PECOSA">
+                <!-- 
+                <input type="number" min="1" max="999999" />
+                <input type="tel" maxlength="3" />     -->     
+                        <!--
+                                    <datalist id="documento" >
+                
+                        <option *ngFor="let e of pecosasxanio"  value="{{ e.nro_pedido}}"> {{ e.ano_eje}} - {{e.nro_pecosa}}</option>	
+                
+                    </datalist>-->
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                <!--     <button type="button" class="btn btn-primary">BUSCAR</button>-->
+                    <button (click)="cargaCabPecosa(numpecosa.value,anio.value)" class="btn btn-primary"  >BUSCAR</button>
+                <!--<button (click)="cargaCabPecosa(anio.value,numpecosa.value)" class="btn btn-primary">BUSCAR</button>-->
+                    <!--	<button (click)="clicked()">PRUEBA</button>-->
+
+                </div>
+        </form>
+
+
+
+
+                <hr>
+                <h5>DOCUMENTO</h5>
+                <br>
+                <br>
+            <form class="form-inline" role="form">
+            
+                    <div class="form-group">
+                        <label id="lbldato2">NRO. PECOSA: </label>
+                        <input class="form-control" disabled value="{{numpecosa_value}}"/>
+                        <!--<label id="lblNropecosa" >{{cabpecosa.idpecosa}}</label>-->
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <div class="form-group">
+                        <label id="lbldato2">NRO. PEDIDO: </label>
+                        <input class="form-control" disabled value="{{cabpeco.nro_pedido}}"/>
+                        <!--<label id="lblNropecosa" >{{cabpecosa.idpecosa}}</label>-->
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                        <label id="lbldato3">FECHA PEDIDO: </label>
+                        <input class="form-control" disabled value="{{cabpeco.fecha_pedido}}"/>
+                        <!--<label id="lblNropecosa" >{{cabpecosa.idpecosa}}</label>-->
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="form-group">
+                        <label id="lbldato4">MOTIVO PEDIDO: </label>
+                        <input class="form-control" size="70" disabled value="{{cabpeco.motivo_pedido}}"/>
+                        <!--<label id="lblNropecosa" >{{cabpecosa.idpecosa}}</label>-->
+                    </div>
+
+            <br><br>
+          
+                         <div class="form-group">
+                        <label id="lbldato5">EMPLEADO: </label>
+                        <input class="form-control"  size="70" disabled value="{{cabpeco.empleado}}"/>
+                        <!--<label id="lblNropecosa" >{{cabpecosa.idpecosa}}</label>-->
+                    </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <div class="form-group">
+                        <label id="lbldato6">FECHA PEDIDO: </label>
+                        <input class="form-control" disabled value="{{cabpeco.fecha_pedido}}"/>
+                        <!--<label id="lblNropecosa" >{{cabpecosa.idpecosa}}</label>-->
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="form-group">
+                        <label id="lbldato6">FECHA REGISTRO: </label>
+                        <input class="form-control" disabled value="{{cabpeco.fecha_reg}}"/>
+                        <!--<label id="lblNropecosa" >{{cabpecosa.idpecosa}}</label>-->
+                    </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="form-group">
+                        <label id="lbldato7">AÑO: </label>
+                    <!--  <input disabled value="{{cabpeco.anio}}"/>-->
+                        <input class="form-control" disabled value="{{cabpeco.ano_eje}}"/>
+                    </div>
+             
+            </form>
+
+
+
+            <div class="col-md-12" align="left">
+                    <hr style="color: black; background-color: black; width:100%;" />
+
+                    <a class="btn btn-default" (click)="descargarExcel('tabla1','prueba')">EXCEL <i class="fa fa-download"></i></a>
+                </div>
+
+            <br>
+
+</section>
+</div>
+
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+        <table class="table" id="tabla1">
+            <thead class="thead-inverse">
+                <tr>
+                	<!--    <th width="10%">NRO</th>  -->
+                    <th width="6%">NRO_PECOSA</th>
+                    <th width="6%">NRO_PEDIDO</th>
+                    <th width="4%">SECUENCIA</th>
+                    <th width="10%">CODIGO</th>
+                    <th width="10%">CANTIDAD SOLICITADA</th>
+                    <th width="30%">DESCRIPCION</th>
+					<th width="10%">UNIDAD MEDIDA</th>
+					<th width="16%">MARCA</th>
+					<th width="12%">CANTIDAD ATENDIDA</th>
+                    <!--<th width="12%">PRECIO UNITARIO</th>
+                    <th width="12%">VALOR TOTAL</th>-->
+                    <th width="12%">CANTIDAD REAL</th>
+                    <th width="12%">VERIFICA</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+              
+  <tr *ngFor="let re of detpecosas">
+                    <td>{{re.nro_pecosa}}</td>
+					<td>{{re.nro_pedido}}</td>  
+                    <td>{{re.secuencia}}</td>
+					<td>{{re.codigo}}</td>    
+                    <td>{{re.cant_solicitada}}</td>
+					<td>{{re.bien}}</td>  
+                    <td>{{re.unidad_de_medida}}</td>                    
+					<td>{{re.marca}}</td> 
+                    <td >{{re.cant_atendida}}</td>   
+                    <td><input type="number" min="0" class="form-control"> </td>
+                    <td><input type="checkbox" ></td>
+                  
+                </tr>
+
+  
+		
+		    </tbody>
+        </table>
+        </section>
+    </div>
+</div>
+
+
+
+<BR>
+<BR>
+<div class="col-md-2">
+
+<button class="btn btn-primary">TRANSFERIR</button>
+	
+
+
+</div>

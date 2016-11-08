@@ -1,0 +1,78 @@
+<h1>CONSULTA DE STOCK - ALMACÉN UDRA</h1>
+
+<!-- Content area -->
+
+<div class="content">
+
+<div class="col-md-2">
+        <label for="lIngreso"><h5>CATEGORIA DE ARTICULOS</h5></label>   
+		<select class="browser-default" name="tipoingreso" (change)="cargaArticulo($event.target.value)">
+  			<option value="1">ESCRITORIO</option>
+			<option value="2">LEGAJOS</option>
+			<option value="3">DPC. AUXILIARES</option>
+			<option value="4">TABLETS</option>
+    	</select>
+</div>
+
+<div class="col-md-2">
+<label><h5>ARTICULO</h5></label>
+<input type="text" list="articulo" width="60" height="48"/>
+<datalist id="articulo">
+	<option value="LAPIZ 2B">
+	<option value="LAPICERO AZUL TINTA MEDIA">
+	<option value="CUADERNO 200 HOJAS">
+</datalist>
+</div>
+
+<BR>
+<BR>
+
+
+        <button type="button" class="btn btn-primary">BUSCAR</button>
+
+    <div class="col-md-12" align="left">
+        <hr style="color: black; background-color: black; width:100%;" />
+
+        <a class="btn btn-default" onclick="descargarSegExcel()">EXCEL <i class="fa fa-download"></i></a>
+    </div>
+
+<BR>
+<br>
+
+
+
+        <table class="table" id="tablaSeg">
+            <thead class="thead-inverse">
+                <tr>
+                    <th width="12%">COD. ARTICULO</th>                   
+                    <th width="24%">DESCRIPCION</th>
+					<th width="12%">MARCA</th>
+					<th width="16%">MODELO</th>
+					<th width="12%">NUM. SERIE</th>
+                  	<th width="12%">STOCK</th>
+                </tr>
+            </thead>
+            <tbody>
+              
+<!--  <tr *ngFor="let re of articulo">
+                    <td>{{re.idarticulo}}</td>
+                    <td>{{re.nombreart}}</td>
+                    <td>{{re.marca}}</td>
+                    <td>{{re.unidad}}</td>                  
+                   
+                </tr>
+
+				-->
+			<tr> 
+					<td>1</td>
+					<td>710600010012</td>
+					<td>LAPICERO AZUL TINTA MEDIA</td>
+					<td>FABER CASTELL</td> 
+					<td>XZ 1234</td>  
+					<td></td>
+					<td>10.0000</td>     
+			</tr>
+            </tbody>
+        </table>
+    
+</div>

@@ -1,0 +1,224 @@
+<h1 class="page-title">SISTEMA INTEGRADO DE SEGMENTACIÓN - <span class="fw-semi-bold">CROQUIS Y LISTADOS TABULAR</span></h1>
+
+<!-- Content area -->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="lDepartamento"><h5> DEPARTAMENTO</h5></label>
+                    <select class="form-control" name="departamentos" (change)="cargarProvincias($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let el of departamentos" value="{{ el.CCDD }}">{{ el.CCDD }} {{ el.DEPARTAMENTO }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lProvincia"><h5> PROVINCIA</h5></label>
+                    <select class="form-control" name="provincias" (change)="cargarDistritos($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let e of provincias" value="{{ e.CCPP }}">{{ e.CCPP }} {{ e.PROVINCIA }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lDistrito"><h5> DISTRITO</h5></label>
+                    <select class="form-control" name="distritos" (change)="cargarZonas($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let e of distritos" value="{{ e.CCDI }}">{{ e.CCDI }} {{ e.DISTRITO }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lArea"><h5> ÁREA</h5></label>
+                    <select id="area" class="form-control" name="areas" >
+                        <!--(change)="cambiarArea($event.target.value)">-->
+                        <option value="0"> Urbano</option>
+                    </select>
+                </div>
+                <div *ngIf="urbanoZona" class="form-group">
+                    <label for="lZona"><h5> ZONA</h5></label>
+                    <select class="form-control" name="zonas" (change)="cargarAeu($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let er of zonas" value="{{ er.UBIGEO }}">{{ er.ZONA }}</option>
+                    </select>
+                </div>
+            </form>
+
+            <form action="" class="inline">
+                <div *ngIf="distrito" class="col-md-2">
+                    <button type="button" (click)="procesarCro()" class="btn btn-primary">Procesar</button>
+                </div>
+
+                <div class="col-md-12" align="left">
+                    <hr style="color: black; background-color: black; width:100%;" />
+                    <a class="btn btn-primary" (click)="descargarExcel('tablaCroTab', 'CROQUIS_Y_LISTADO')">EXCEL <i class="fa fa-download"></i></a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <div class="widget-body">
+                <form class="navbar-form pull-xs-left" role="search">
+                    <div class="form-group">
+                        <div class="input-group input-group-no-border">
+                            <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                            <input #gb type="text" pInputText size="50" class="form-control" placeholder="Buscador Global">
+                        </div>
+                    </div>
+                </form>
+                <p-dataTable id="tablaCroTab" [value]="registros" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,30]"
+                    class="table table-bordered table-lg mt-lg mb-0" [globalFilter]="gb">
+                    <p-column field="DEPARTAMENTO" header="DEPARTAMENTO" [sortable]="true"></p-column>
+                    <p-column field="PROVINCIA" header="PROVINCIA" [sortable]="true"></p-column>
+                    <p-column field="DISTRITO" header="DISTRITO" [sortable]="true"></p-column>
+                    <p-column *ngIf="urbanoZona" field="ZONA" header="ZONA" [sortable]="true"></p-column>
+                    <p-column field="NUM_SEC" header="NRO. DE SECCIONES" [sortable]="true"></p-column>
+                    <p-column *ngIf="urbanoZona" field="NUM_AEU" header="NRO. DE AEUs" [sortable]="true"></p-column>
+                    <p-column *ngIf="ruralZona" field="NUM_AERS" header="NRO. DE AERs" [sortable]="true"></p-column> 
+                    <p-column field="EST_CROQUIS" styleClass="col-button" header="ESTADO">
+                        <template let-col let-car="rowData" pTemplate type="body">
+                            <span [ngSwitch]="car[col.field]">
+                            <span *ngSwitchCase="1"> - </span>
+                            <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
+                            <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
+                            <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
+                            </span>
+                        </template>
+                    </p-column>
+                    <p-column *ngIf="verZona" header="VER">
+                        <template pTemplate type="body">
+                            <button (click)="getRegistro(0)" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-pencil"></i></button>
+                        </template>
+                    </p-column>
+                    <p-column *ngIf="verZona" header="DESCARGAR">
+                        <template pTemplate type="body">
+                            <div class="btn-group" style="position:absolute">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-download"> </i></button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" [href]=urlCroquis download>ZONA</a>
+                                    <a class="dropdown-item" [href]=urlSeccion download> SECCION</a>
+                                    <a class="dropdown-item" [href]=urlEmpadronador download> AEU</a>
+                                </div>
+                            </div>
+                        </template>
+                    </p-column>
+                    <p-column *ngIf="verDistrito" header="VER">
+                        <template pTemplate type="body">
+                            <button (click)="getRegistro(1)" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-pencil"></i></button>
+                        </template>
+                    </p-column>
+                    <p-column *ngIf="verDistrito" header="DESCARGAR">
+                        <template pTemplate type="body">
+                            <div class="btn-group" style="position:absolute">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-download"> </i></button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" [href]=urlSeccionRural download> SECCION</a>
+                                    <a class="dropdown-item" [href]=urlEmpadronadorRural download> AER</a>
+                                </div>
+                            </div>
+                        </template>
+                    </p-column>
+                </p-dataTable>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 align="center" class="modal-title" id="myModalLabel">CROQUIS Y LISTADOS TABULAR</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="height: 850px;">
+                    <div class="col-md-3" style="overflow-y:scroll;">
+                        <section class="widget">
+                            <form class="form-inline">
+                                <label for="lDepa"><h5>{{nombreDepa}} - </h5></label>
+                                <label for="lPro"><h5>{{nombreProv}} - </h5></label>
+                                <label for="lDis"><h5>{{nombreDist}}</h5></label>
+                                <div class="form-group">
+                                    <label for="lSeccion"><h5> SECCIÓN</h5></label>
+                                    <select class="form-control" name="seccion" (change)="getRegistro($event.target.value)">
+                                        <option value="0">ZONA</option>
+                                        <option value="1">SECCIÓN</option>
+                                        <option value="2">AEU</option>                        
+                                    </select>
+                                    <a class="btn btn-primary" [href]=urlCroquis download> PDF  <i class="fa fa-download"> </i></a>
+                                </div>
+                            </form>
+                        </section>
+                        <section class="widget">
+                            <table *ngIf="urbanoZona" border="2" class="table table-bordered table-lg mt-lg mb-0" id="tablaCroTabAux" class="scroll">
+                                <thead>
+                                    <tr>
+                                        <th width="11%">Zona</th>
+                                        <th *ngIf="seccionAux" width="10%">Sección</th>
+                                        <th *ngIf="aeuAux" width="10%">Nro. de AEU</th>
+                                        <th width="11%">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody max-height="500px">
+                                    <tr *ngFor="let re1 of registros2">
+                                        <td>{{re1.ZONA}}</td>
+                                        <td *ngIf="seccionAux" (click)="cambiarPdfSeccion(re1.SECCION)">{{re1.SECCION}}</td>
+                                        <td *ngIf="aeuAux" (click)="cambiarPdfAeu(re1.SECCION,re1.AEU_FINAL)">{{re1.AEU_FINAL}}</td>
+                                        <td> <span class="btn btn-success">EXITOSO</span> </td>
+                                        <!--<td>
+                                            <span [ngSwitch]="[re1.EST_CROQUIS]">
+                                            <span *ngSwitchCase="1"> - </span>
+                                            <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
+                                            <span *ngSwitchCase="3" class="btn btn-primary">EN PROCESO</span>
+                                            <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
+                                            <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
+                                            </span>                                            
+                                        </td>-->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table *ngIf="ruralZona" border="2" class="table table-bordered table-lg mt-lg mb-0" id="tablaCroAux" class="scroll">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Sección</th>
+                                        <th *ngIf="aeuAuxRural" width="10%">Nro. de AER</th>
+                                        <th width="11%">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody><!-- max-height="500px">-->
+                                    <tr *ngFor="let re1 of registros2">
+                                        <td align="center" (click)="cambiarPdfSeccion(re1.NUM_SEC)">{{re1.NUM_SEC}}</td>
+                                        <td align="center" *ngIf="aeuAuxRural" (click)="cambiarPdfAeu(re1.NUM_SEC,re1.NUM_AERS)">{{re1.NUM_AERS}}</td>
+                                        <td align="center"> <span class="btn btn-success">EXITOSO</span> </td>
+                                        <!--<td>
+                                            <span [ngSwitch]="[re1.EST_CROQUIS]">
+                                            <span *ngSwitchCase="1"> - </span>
+                                            <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
+                                            <span *ngSwitchCase="3" class="btn btn-primary">EN PROCESO</span>
+                                            <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
+                                            <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
+                                            </span>                                            
+                                        </td>-->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                    <div class="col-md-9">
+                        <object id="object" [data]=urlCroquis type="application/pdf" width="100%" height="100%">
+                                alt : <a [href]=urlCroquis>test.pdf</a>
+                        </object>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

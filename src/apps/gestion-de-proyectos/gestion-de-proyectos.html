@@ -1,0 +1,125 @@
+<h5 class="page-title">SEGURIDAD - <span class="fw-semi-bold">GESTION DE PROYECTOS</span></h5>
+<md-card>
+    <input [(ngModel)]="customSelected" [typeaheadMinLength]="0" placeholder="Escriba el Proyecto" [typeahead]="siga" [typeaheadOptionField]="'desc_proyecto'" (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionsLimit]="10" class="form-control">
+</md-card>
+
+<button [hidden]="!sigaSelected" data-toggle="modal" (click)="addProyectoModal()" md-fab color="warn">
+        <md-icon class="md-24">add</md-icon>
+    </button>
+<div class="table-responsive-vertical shadow-z-1">
+    <!-- Table starts here -->
+    <table id="table" class="table table-hover table-mc-light-blue">
+        <thead>
+            <tr>
+                <th>ID PROYECTO</th>
+                <th>Descripcion</th>
+                <th>Codigo Meta</th>
+                <th>Modalidad</th>
+                <th>CODI_DEPE_TDE</th>
+                <th>Año Meta</th>
+                <th>Objetivo</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="sigaSelected">
+            <tr>
+                <td data-title="ID PROYECTO">{{ sigaSelected.id_proyecto }}</td>
+                <td data-title="Descripcion">{{ sigaSelected.desc_proyecto }}</td>
+                <td data-title="Codigo Meta">{{ sigaSelected.codi_Meta }}</td>
+                <td data-title="Modalidad">{{ sigaSelected.modalidad }}</td>
+                <td data-title="CODI_DEPE_TDE">{{ sigaSelected.CODI_DEPE_TDE }}</td>
+                <td data-title="Año Meta">{{ sigaSelected.annio_meta }}</td>
+                <td data-title="Objetivo">{{ sigaSelected.objetivo }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<md-card>
+    <div class="table-responsive-vertical shadow-z-1">
+        <p-dataTable class="table table-hover table-mc-light-blue" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" [value]="seguridad" selectionMode="single" [(selection)]="selectedSeguridad">
+            <header>Seguridad Proyectos</header>
+            <p-column field="sigla_proy" header="Sigla"></p-column>
+            <p-column field="anio_proy" header="Año"></p-column>
+            <p-column field="des_proy" header="Descripción"></p-column>
+            <p-column field="cod_meta" header="Codigo Meta"></p-column>
+            <p-column>
+                <template let-proj="rowData" pTemplate type="body">
+					<span [ngSwitch]="proj.flag_activo">
+                        <span *ngSwitchCase="'1'" class="label label-success">Activo</span>
+					<span *ngSwitchCase="'0'" class="label label-danger">Inactivo</span>
+					<span *ngSwitchDefault class="label label-danger">Inactivo</span>
+					</span>
+				</template>
+            </p-column>
+        </p-dataTable>
+    </div>
+    <button type="button" [disabled]="!selectedSeguridad" (click)="editProyectoModal()" md-raised-button color="primary">Editar y/o Eliminar</button>
+    <button type="button" [disabled]="!selectedSeguridad" (click)="asignarProyectoModal()" md-raised-button color="warn">Asignar Sistemas</button>
+</md-card>
+
+<div id="add_edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <md-card class="demo-card demo-basic">
+            <md-toolbar color="primary">{{ titulo_modal }}</md-toolbar>
+            <md-card-content>
+                <div *ngIf="insert">
+                    <form #form="ngForm" (ngSubmit)="addProyecto(form)">
+                        <table style="width: 100%" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <md-input placeholder="Sigla Proyecto" [ngModel]="newproyecto.sigla_proy" name="sigla_proy" required style="width: 100%"></md-input>
+                                    <md-input placeholder="Año Proyecto" [ngModel]="newproyecto.anio_proy" name="anio_proy" required [value]="newproyecto.anio_proy" style="width: 100%"></md-input>
+                                    <md-input placeholder="Descripción" [ngModel]="newproyecto.des_proy" name="des_proy" required [value]="newproyecto.des_proy" style="width: 100%"></md-input>
+                                    <md-input placeholder="Código Meta" [ngModel]="newproyecto.cod_meta" name="cod_meta" required [value]="newproyecto.cod_meta" style="width: 100%"></md-input>
+                                    <md-checkbox name="flag_activo" [checked]="flag_activo" [ngModel]="flag_activo">Activar?</md-checkbox>
+                                </td>
+                            </tr>
+                        </table>
+                        <button md-raised-button color="accent">Agregar</button>
+                    </form>
+                </div>
+                <div *ngIf="update">
+                    <form #f="ngForm" (ngSubmit)="editProyecto(f)">
+                        <table style="width: 100%" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <md-input name="sigla_proy" [ngModel]="selectedSeguridad.sigla_proy" [value]="selectedSeguridad.sigla_proy" required placeholder="Nombre" style="width: 100%"></md-input>
+                                    <md-input name="anio_proy" [ngModel]="selectedSeguridad.anio_proy" [value]="selectedSeguridad.anio_proy" required placeholder="Codigo" style="width: 100%"></md-input>
+                                    <md-input name="des_proy" [ngModel]="selectedSeguridad.des_proy" [value]="selectedSeguridad.des_proy" required placeholder="Descripcion" style="width: 100%"></md-input>
+                                    <md-input name="cod_meta" [ngModel]="selectedSeguridad.cod_meta" [value]="selectedSeguridad.cod_meta" required placeholder="Meta" style="width: 100%"></md-input>
+                                    <md-checkbox name="flag_activo" [ngModel]="flag_activo2" [checked]="flag_activo2">Activar?</md-checkbox>
+                                </td>
+                            </tr>
+                        </table>
+                        <button type="button" (click)="deleteProyecto()" md-raised-button color="primary">Eliminar</button>
+                        <button md-raised-button color="warn">Editar</button>
+                    </form>
+                </div>
+                <div *ngIf="asignar">
+                    <div class="row" *ngIf="selectedSeguridad">
+                        <div class="col-md-6">
+                            <p-dataTable class="table table-hover table-mc-light-blue" [value]="selectedSeguridad.sistemas" [(selection)]="sistemasSelected">
+                                <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                                <p-column field="nom_sist"></p-column>
+                            </p-dataTable>
+                        </div>
+                        <div class="col-md-6">
+                            <p-dataTable class="table table-hover table-mc-light-blue" [value]="sistemas_por_asignar" [(selection)]="sistemas_por_asignar_selected">
+                                <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                                <p-column field="nom_sist"></p-column>
+                                <p-column field="codigo_sist"></p-column>
+                            </p-dataTable>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button (click)="eliminarSistemas()" md-raised-button color="warn">Eliminar</button>
+                        <button (click)="asignarProyectos()" md-raised-button color="warn">Asignar</button>
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
+<ng2-toasty></ng2-toasty>
+<p-confirmDialog header="Confirmation" style="z-index: 9999;position: fixed;" icon="fa fa-question-circle" width="425"></p-confirmDialog>

@@ -1,0 +1,314 @@
+<h5 class="page-title">Modulo de <span class="fw-semi-bold">Registro</span></h5>
+
+<md-card>
+	<md-card-content>
+		<form class="form-inline">
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label for="departamento">Departamento</label>
+					<select class="form-control" [(ngModel)]="selectedDepartamento" (ngModelChange)="getProvincias()" name="departamento" id="departamento">
+                            <option selected value="0">Seleccione</option>
+                            <option *ngFor="let dep of departamentos" [value]="dep.ccdd">{{ dep.departamento }}</option>
+                        </select>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label for="provincia">Provincia</label>
+					<select class="form-control" [(ngModel)]="selectedProvincia" (ngModelChange)="getDistritos()" name="provincia" id="provincia">
+                            <option selected value="0">Seleccione</option>
+                            <option *ngFor="let prov of provincias" [value]="prov.ccpp">{{ prov.provincia }}</option>
+                        </select>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label for="distrito">Distrito</label>
+					<select class="form-control" [(ngModel)]="selectedDistrito" name="distritos" id="distrito">
+                            <option selected value="0">Seleccione</option>
+                            <option *ngFor="let dis of distritos" [value]="dis.ccdi">{{ dis.distrito }}</option>
+                        </select>
+				</div>
+			</div>
+		</form>
+	</md-card-content>
+</md-card>
+
+<md-card>
+	<button md-raised-button (click)="accionAddLocal()" color="accent">Registrar Local</button>
+	<button md-raised-button (click)="findLocales()" color="warn">Buscar Local</button>
+</md-card>
+<div *ngIf="alert_nofindlocales" class="alert alert-danger">
+	<strong>No existen locales para este ubigeo.</strong>
+</div>
+<md-card *ngIf="accion_addlocal">
+	<md-toolbar color="primary">Registrar Local</md-toolbar>
+	<md-card-content>
+		<div class="row">
+			<form [formGroup]="localForm" (ngSubmit)="onSubmit()">
+				<div class="col-md-12 col-xs-12 col-sm-12 col-lg-8">
+					<table style="width: 100%" cellspacing="0">
+						<tr>
+							<td>
+								<md-input placeholder="Local" formControlName="nombre_local" style="width: 100%"></md-input>
+							</td>
+							<td>
+								<md-input placeholder="#Aulas" formControlName="total_aulas_max" style="width: 100%"></md-input>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div *ngIf="formErrors.nombre_local" class="alert alert-danger">
+									{{ formErrors.nombre_local }}
+								</div>
+							</td>
+							<td>
+								<div *ngIf="formErrors.total_aulas_max" class="alert alert-danger">
+									{{ formErrors.total_aulas_max }}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<md-input placeholder="Dirección" formControlName="direccion" #algo style="width: 100%"></md-input>
+							</td>
+							<td>
+								<md-input placeholder="TotalPEA" formControlName="total_pea" style="width: 100%"></md-input>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div *ngIf="formErrors.direccion" class="alert alert-danger">
+									{{ formErrors.direccion }}
+								</div>
+							</td>
+							<td>
+								<div *ngIf="formErrors.total_pea" class="alert alert-danger">
+									{{ formErrors.total_pea }}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<md-input placeholder="Referencia" formControlName="referencia" style="width: 100%"></md-input>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div *ngIf="formErrors.referencia" class="alert alert-danger">
+									{{ formErrors.referencia }}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<md-input placeholder="Teléfono" formControlName="telefono_local" style="width: 100%"></md-input>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div *ngIf="formErrors.telefono_local" class="alert alert-danger">
+									{{ formErrors.telefono_local }}
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-md-12 col-xs-12 col-sm-12 col-lg-4">
+					<tabset [justified]="true">
+						<tab heading="Funcionario">
+							<p>
+								<md-input class="demo-full-width" formControlName="funcionario_nombre" placeholder="Nombre"></md-input>
+							</p>
+							<div *ngIf="formErrors.funcionario_nombre" class="alert alert-danger">
+								{{ formErrors.funcionario_nombre }}
+							</div>
+							<p>
+								<md-input class="demo-full-width" formControlName="funcionario_celular" placeholder="Teléfono"></md-input>
+
+							</p>
+							<div *ngIf="formErrors.funcionario_celular" class="alert alert-danger">
+								{{ formErrors.funcionario_celular }}
+							</div>
+							<p>
+								<md-input class="demo-full-width" formControlName="funcionario_email" placeholder="Email"></md-input>
+
+							</p>
+							<div *ngIf="formErrors.funcionario_email" class="alert alert-danger">
+								{{ formErrors.funcionario_email }}
+							</div>
+						</tab>
+						<tab heading="Contacto">
+							<p>
+								<md-input class="demo-full-width" formControlName="contacto_nombre" placeholder="Nombre"></md-input>
+							</p>
+							<div *ngIf="formErrors.contacto_nombre" class="alert alert-danger">
+								{{ formErrors.contacto_nombre }}
+							</div>
+							<p>
+								<md-input class="demo-full-width" formControlName="contacto_celular" placeholder="Teléfono"></md-input>
+							</p>
+							<div *ngIf="formErrors.contacto_celular" class="alert alert-danger">
+								{{ formErrors.contacto_celular }}
+							</div>
+							<p>
+								<md-input class="demo-full-width" formControlName="contacto_email" placeholder="Email"></md-input>
+							</p>
+							<div *ngIf="formErrors.contacto_email" class="alert alert-danger">
+								{{ formErrors.contacto_email }}
+							</div>
+						</tab>
+					</tabset>
+				</div>
+			</form>
+			<div class="col-xs-12">
+				<div class="panel panel panel-default-border">
+					<div class="panel-body">
+						<div *ngFor="let infra of infraestructuras; let i=index" class="col-xs-3">
+							<div class="form-group delpmbottom">
+								<label>{{ infra.desc_infraestructura }} <span class="text-danger">(*)</span></label>
+								<select [(ngModel)]="infra.estado1" (ngModelChange)="setEstadoInfra($event,i)" class="form-control">
+										<option value="0">Seleccione</option>
+										<option *ngFor="let est of infra.estado" [value]="est">{{ est }}</option></select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<button [disabled]="!localForm.valid" md-raised-button color="accent">Grabar</button>
+				<button type="button" data-toggle="modal" data-target="#myModal" [hidden]="!registrarAula" md-raised-button color="accent">Registrar Aulas</button>
+			</div>
+
+
+		</div>
+	</md-card-content>
+</md-card>
+<ng2-toasty></ng2-toasty>
+
+<md-card>
+	<md-card-content>
+
+	</md-card-content>
+</md-card>
+<md-card *ngIf="accion_editlocal">
+
+	<div class="table-responsive">
+		<div class="ui-widget-header ui-helper-clearfix" style="padding:4px 10px;border-bottom: 0 none">
+			<i class="fa fa-search" style="float:left;margin:4px 4px 0 0"></i>
+			<input #gb type="text" pInputText size="50" style="float:left" placeholder="Buscador">
+		</div>
+		<p-dataTable class="table table-hover table-mc-light-blue" [globalFilter]="gb" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+			[value]="search_locales" selectionMode="single" [(selection)]="selectedLocal">
+			<p-column field="nombre_local" header="Nombre Local"></p-column>
+			<p-column field="referencia" header="Referencia"></p-column>
+			<p-column field="telefono_local" header="Telefono Local"></p-column>
+			<p-column field="total_aulas_max" header="Total Aulas Máximas"></p-column>
+			<p-column field="total_pea" header="Total PEA"></p-column>
+			<p-column field="direccion" header="Dirección"></p-column>
+			<p-column field="telefono_local" header="Telefono Local"></p-column>
+		</p-dataTable>
+	</div>
+</md-card>
+<!-- /.Live preview-->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<!--Content-->
+		<div class="modal-content">
+			<!--Header-->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+				<h4 class="modal-title" id="myModalLabel">Registro de Aulas</h4>
+			</div>
+			<!--Body-->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="md-form">
+							<label>Nro Aula</label>
+							<input [(ngModel)]="aula.num_aula" name="num_aula" type="text" class="form-control" id="email">
+						</div>
+						<div class="md-form">
+							<label for="email">Capacidad</label>
+							<input [(ngModel)]="aula.capacidad" name="capacidad" type="text" class="form-control" id="email">
+						</div>
+						<div class="md-form">
+							<label for="email">Mobiliario</label>
+							<input [(ngModel)]="aula.mobiliario" name="mobiliario" type="text" class="form-control" id="email">
+						</div>
+					</div>
+					<div class="col-md-9">
+						<div class="col-md-3">
+							<div class="md-form">
+								<div class="form-group">
+									<input [(ngModel)]="aula.internet" name="internet" type="checkbox" id="checkbox11">
+									<label for="checkbox11">Internet</label>
+								</div>
+
+								<div class="form-group">
+									<input [(ngModel)]="aula.pizarra" name="pizarra" type="checkbox" id="checkbox11">
+									<label for="checkbox11">Pizarra</label>
+								</div>
+
+								<div class="form-group">
+									<input [(ngModel)]="aula.unipersonales" name="unipersonales" type="checkbox" id="checkbox11">
+									<label for="checkbox11">C. Unipersonales</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="md-form">
+								<div class="form-group">
+									<input [(ngModel)]="aula.audio" name="audio" type="checkbox" id="checkbox11">
+									<label for="checkbox11">Audio</label>
+								</div>
+
+								<div class="form-group">
+									<input [(ngModel)]="aula.mesas" name="mesas" type="number">
+									<label for="checkbox11">Mesas</label>
+								</div>
+
+								<div class="form-group">
+									<input [(ngModel)]="aula.bipersonales" name="bipersonales" type="number">
+									<label for="checkbox11">C.Bipersonales</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="md-form">
+								<div class="form-group">
+									<input [(ngModel)]="aula.proyector" name="proyector" type="checkbox" id="checkbox11">
+									<label for="checkbox11">Proyector</label>
+								</div>
+
+								<div class="form-group">
+									<input [(ngModel)]="aula.sillas" name="sillas" type="number">
+									<label for="checkbox11">Sillas</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button md-raised-button (click)="addAula()" color="accent">Añadir</button>
+				</div>
+				<div class="row">
+					<p-dataTable class="table table-hover table-mc-light-blue"  [value]="aulasbylocal" selectionMode="single" [(selection)]="selectedAula">
+						<p-column field="num_aula" header="Nombre Local"></p-column>
+						<p-column field="capacidad" header="Referencia"></p-column>
+						<p-column field="capacidad" header="Telefono Local"></p-column>
+						<p-column field="internet" header="Total Aulas Máximas"></p-column>
+						<p-column field="audio" header="Total PEA"></p-column>
+						<p-column field="proyector" header="Dirección"></p-column>
+						<p-column field="pizarra" header="Telefono Local"></p-column>
+					</p-dataTable>
+				</div>
+			</div>
+			<!--Footer-->
+		</div>
+
+		<!--/.Content-->
+	</div>
+</div>
+<!-- /.Live preview-->

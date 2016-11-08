@@ -1,0 +1,78 @@
+<h5 class="page-title">SEGURIDAD - <span class="fw-semi-bold">GESTION DE SISTEMAS</span></h5>
+
+<div class="row">
+    <button data-toggle="modal" (click)="showAddModal()" md-fab color="warn">
+        <md-icon class="md-24">add</md-icon>
+    </button>
+</div>
+<div class="table-responsive-vertical shadow-z-1">
+    <!-- Table starts here -->
+    <table id="table" class="table table-hover table-mc-light-blue">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let sistema of sistemas" (click)="onSelect(sistema)">
+                <td data-title="ID">{{ sistema.id_sistema }}</td>
+                <td data-title="Codigo">{{ sistema.codigo_sist }}</td>
+                <td data-title="Descripción">{{ sistema.des_sist }}</td>
+                <td data-title="Nombre">{{ sistema.nom_sist }}</td>
+                <td data-title="Estado">
+                    <span [ngSwitch]="sistema.flag_activo">
+                        <span *ngSwitchCase="'1'" class="label label-success">Activo</span>
+                    <span *ngSwitchCase="'0'" class="label label-danger">Inactivo</span>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="add_edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <md-card class="demo-card demo-basic">
+            <md-toolbar color="primary">{{ titulo_modal }}</md-toolbar>
+            <md-card-content>
+                <div *ngIf="update">
+                    <form #form="ngForm" (ngSubmit)="editSistema(form)">
+                        <table style="width: 100%" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <md-input placeholder="Nombre" [ngModel]="selectedSistema.nom_sist" name="nom_sist" required [value]="selectedSistema.nom_sist" style="width: 100%"></md-input>
+                                    <md-input placeholder="Codigo" [ngModel]="selectedSistema.codigo_sist" name="codigo_sist" required [value]="selectedSistema.codigo_sist" style="width: 100%"></md-input>
+                                    <md-input placeholder="Descripcion" [ngModel]="selectedSistema.des_sist" name="des_sist" required [value]="selectedSistema.des_sist" style="width: 100%"></md-input>
+                                    <md-checkbox name="flag_activo" [checked]="flag_activo" [ngModel]="flag_activo">Activar?</md-checkbox>
+                                </td>
+                            </tr>
+                        </table>
+                        <button type="button" (click)="deleteSistema()" md-raised-button color="accent">Eliminar</button>
+                        <button md-raised-button color="primary">Editar</button>
+                    </form>
+                </div>
+                <div *ngIf="insert">
+                    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+                        <table style="width: 100%" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <md-input name="nom_sist" ngModel required placeholder="Nombre" style="width: 100%"></md-input>
+                                    <md-input name="codigo_sist" ngModel required placeholder="Codigo" style="width: 100%"></md-input>
+                                    <md-input name="des_sist" ngModel required placeholder="Descripcion" style="width: 100%"></md-input>
+                                    <md-checkbox name="flag_activo" ngModel [checked]="false">Activar?</md-checkbox>
+                                </td>
+                            </tr>
+                        </table>
+                        <button md-raised-button color="primary">Agregar</button>
+                    </form>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
+<ng2-toasty></ng2-toasty>
+<p-confirmDialog header="Confirmation" style="z-index: 9999;position: fixed;" icon="fa fa-question-circle" width="425"></p-confirmDialog>

@@ -1,0 +1,98 @@
+<h1 class="page-title">SISTEMA INTEGRADO DE SEGMENTACIÓN - <span class="fw-semi-bold">SEGMENTACIÓN</span></h1>
+<!-- Content area -->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="lDepartamento"><h5> DEPARTAMENTO</h5></label>
+                    <select class="form-control" name="departamentos" (change)="cargarProvincias($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let el of departamentos" value="{{ el.CCDD }}">{{ el.CCDD }} {{ el.DEPARTAMENTO }}</option>
+                    </select>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                    <label for="lProvincia"><h5> PROVINCIA</h5></label>
+                    <select class="form-control" name="provincias" (change)="cargarDistritos($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let e of provincias" value="{{ e.CCPP }}">{{ e.CCPP }} {{ e.PROVINCIA }}</option>
+                    </select>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                    <label for="lDistrito"><h5> DISTRITO</h5></label>
+                    <select class="form-control" name="distritos" (change)="cargarZonas($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let e1 of distritos" value="{{ e1.CCDI }}">{{ e1.CCDI }} {{ e1.DISTRITO }}</option>
+                    </select>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                    <label for="lArea"><h5> ÁREA</h5></label>
+                    <select class="form-control" name="areas" (change)="cambiarArea($event.target.value)">
+                        <option value="0"> Urbana</option>
+                        <option value="1"> Rural</option>
+                    </select>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div *ngIf="urbanoZona" class="form-group">
+                    <label for="lZona"><h5> ZONA</h5></label>
+                    <select class="form-control" name="zonas" (change)="cargarAeu($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let er of zonas" value="{{ er.UBIGEO }}">{{ er.ZONA }}</option>
+                    </select>
+                </div>
+            </form>
+
+            <form action="" class="inline">                
+                <div class="col-md-12" align="left">
+                    <div *ngIf="distrito" class="col-md-2">
+                        <button type="button" (click)="procesarSeg()" class="btn btn-primary">Procesar</button>
+                    </div>
+                    <hr style="color: black; background-color: black; width:100%;" />
+                    <a class="btn btn-primary" (click)="descargarExcel('tablaSeg', 'SEGMENTACION')">EXCEL <i class="fa fa-download"></i></a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <div class="widget-body">
+                <form class="navbar-form pull-xs-left" role="search">
+                    <div class="form-group">
+                        <div class="input-group input-group-no-border">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input #gb type="text" pInputText size="50" class="form-control" placeholder="Buscador Global">
+                        </div>
+                    </div>
+                </form>
+                <p-dataTable id="tablaSeg" [value]="registros" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,30]" class="table table-bordered table-lg mt-lg mb-0" [globalFilter]="gb">
+                    <p-column field="DEPARTAMENTO" header="DEPARTAMENTO" [sortable]="true"></p-column>
+                    <p-column field="PROVINCIA" header="PROVINCIA" [sortable]="true"></p-column>
+                    <p-column field="DISTRITO" header="DISTRITO" [sortable]="true"></p-column>
+                    <p-column *ngIf="urbanoZona" field="ZONA" header="ZONA" [sortable]="true"></p-column>                    
+                    <p-column field="NUM_SEC" header="NRO. DE SECCIONES" [sortable]="true"></p-column>
+                    <p-column *ngIf="urbanoZona" field="NUM_AEU" header="NRO. DE AEUs" [sortable]="true"></p-column>
+                    <p-column *ngIf="ruralZona" field="NUM_AERS" header="NRO. DE AERs" [sortable]="true"></p-column> 
+                    <p-column field="EST_SEG" styleClass="col-button" header="ESTADO">
+                        <template let-col let-car="rowData" pTemplate type="body">
+                            <span [ngSwitch]="car[col.field]">
+                            <span *ngSwitchCase="1"> - </span>
+                            <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
+                            <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
+                            <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
+                            </span>
+                        </template>
+                    </p-column>
+                </p-dataTable>
+            </div>
+        </section>
+    </div>
+</div>
+<ng2-toasty></ng2-toasty>

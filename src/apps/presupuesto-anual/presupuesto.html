@@ -1,0 +1,394 @@
+<!-- h1>HOLA!</h1 -->
+
+
+
+<div class="col-lg-12">
+    <section class="widget">
+        <header>
+            <h3>
+                REGISTRO DE PRESUPUESTO ANUAL
+            </h3>
+            <div class="widget-controls">
+                <a data-widgster="expand" title="Expand" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                <a data-widgster="collapse" title="Collapse" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+                <a href="#"><i class="fa fa-refresh"></i></a>
+                <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+            <form class="form-horizontal form-label-left" method="post">
+                <fieldset>
+                    <!-- Primera linea de mi formulario -->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left" for="cmb_partida">Tipo de Partida
+                        </label>
+                        <div class="col-md-4">
+                            <select name="cmb_partida" id="cmb_partida" class="select2 form-control" tabindex="-1" required>
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of partida" value="{{registro.desc_partida}}">{{registro.desc_partida}}</option>
+                            </select>
+                        </div>
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Red</label>
+                        <div class="col-md-4">
+                            <select name="cmb_red" id="cmb_red" class="select2 form-control" tabindex="-1" required>
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of red" value="{{registro.cod_red}}">{{registro.desc_red}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <!-- Segunda linea de mi formulario -->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Actividad Presupuestal</label>
+                        <div class="col-md-4">
+                            <select name="cmb_actividad" id="cmb_actividad" class="select2 form-control" tabindex="-1" required>
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of actividad" value="{{registro.desc_actividad}}">{{registro.desc_actividad}}</option>
+                            </select>
+                        </div>
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left" for="txt_pea">Cantidad de PEA
+                        </label>
+                        <div class="col-md-4">
+                            <input type="text" id="txt_pea" name="txt_pea" class="col-md-2 form-control" data-parsley-type="number" required="required">
+                        </div>
+                    </div>
+
+                    <!-- Tercera linea de mi formulario -->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Fuente de Financiamiento</label>
+                        <div class="col-md-4">
+                            <select id="cmb_fuenteFto" id="cmb_fuenteFto" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of fuenteFto" value="{{registro.id_fuente_fto}}">{{registro.desc_fuente_fto}}</option>
+                        </select>
+                        </div>
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Periodo</label>
+                        <div class="col-md-2">
+                            <input type="number" id="txt_periodo" name="txt_periodo" class="form-control"  required="required">
+                        </div>
+                        <div class="col-md-2">
+                            <select class="select2 form-control" tabindex="-1">
+                                <option value="0">Seleccione...</option>
+                                <option value="1">Días</option>
+                                <option value="2">Mes(es)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cuarta linea de mi formulario-->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Cargo Funcional</label>
+                        <div class="col-md-4">
+                            <select id="cmb_cargoFUncional" name="cmb_cargoFUncional" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of cargoFuncional" id="{{registro.id_cargo_funcional}}">{{registro.desc_cargo_funcional}}</option>
+                            </select>
+                        </div>
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Mes Inicio</label>
+                        <div class="col-md-4">
+                            <select id="cmb_mes" name="cmb_mes" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of mes" value="{{registro.cod_mes}}">{{registro.desc_mes}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Quinta linea de mi formulario-->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Cargo de Contratación</label>
+                        <div class="col-md-4">
+                            <select id="cmb_cargoContratacion" name="cmb_cargoContratacion" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of cargoContratacion" id="{{registro.id_cargo_contratacion}}">{{registro.desc_cargo_contratacion}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-4 col-md-7">
+                            <button type="submit" class="btn btn-primary btn-rounded pull-xs-right">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+
+
+
+<div class="col-lg-12">
+    <section class="widget">
+    <div class="clearfix">
+        <ul class="nav nav-tabs pull-xs-left" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#basic" role="tab" aria-controls="basic" aria-expanded="true"><span class="fw-semi-bold">Anexo de PEA</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#assumtion" role="tab" aria-controls="assumtion" aria-expanded="false"><span class="fw-semi-bold">Resumen por Actividad</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content mb-lg" id="myTabContent">
+        <div role="tabpanel" class="tab-pane active in clearfix" id="basic" aria-labelledby="basic-tab" aria-expanded="true">
+            
+            <table id="datatable-table_1" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="no-sort hidden-sm-down">ACTIVIDAD</th>
+                        <th class="hidden-sm-down">CARGO FUNCIONAL</th>
+                        <th class="hidden-sm-down">CARGO CONTRATACIÓN</th>
+                        <th class="no-sort">TIPO PARTIDA</th>
+                        <th class="no-sort">FUENTE FTO.</th>
+                        <th class="no-sort">RED</th>
+                        <th class="no-sort">PEA</th>
+                        <th class="no-sort">GASTO UNITARIO</th>
+                        <th class="no-sort">PERIODO</th>
+                        <th class="no-sort">UNIDAD DE MEDIDA</th>
+                        <th class="no-sort">TOTAL</th>
+                        <th class="no-sort">ENERO</th>
+                        <th class="no-sort">FEBRERO</th>
+                        <th class="no-sort">MARZO</th>
+                        <th class="no-sort">ABRIL</th>
+                        <th class="no-sort">MAYO</th>
+                        <th class="no-sort">JUNIO</th>
+                        <th class="no-sort">JULIO</th>
+                        <th class="no-sort">AGOSTO</th>
+                        <th class="no-sort">SETIEMBRE</th>
+                        <th class="no-sort">OCTUBRE</th>
+                        <th class="no-sort">NOVIEMBRE</th>
+                        <th class="no-sort">DICIEMBRE</th>
+                        <th class="no-sort">TOTAL CERTIFICADO</th>
+                        <th class="no-sort">TOTAL PAGADO</th>
+                        <th class="no-sort">SALDO</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="tab-pane" id="assumtion" role="tabpanel" aria-labelledby="assumtion-tab" aria-expanded="false">
+           
+            <section class="widget">
+                <header>
+                    <div class="widget-controls">
+                        <a data-widgster="expand" title="Expand" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a data-widgster="collapse" title="Collapse" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                        <a data-widgster="close" title="Close" href="#"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </header>
+                <div class="widget-body">
+                    <div class="mt">
+                        <table id="datatable-table" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="no-sort hidden-sm-down">NRO.</th>
+                                    <th class="hidden-sm-down">ACTIVIDADES/TAREAS</th>
+                                    <th class="hidden-sm-down">TOTAL</th>
+                                    <th class="no-sort">ENERO</th>
+                                    <th class="no-sort">FEBRERO</th>
+                                    <th class="no-sort">MARZO</th>
+                                    <th class="no-sort">ABRIL</th>
+                                    <th class="no-sort">MAYO</th>
+                                    <th class="no-sort">JUNIO</th>
+                                    <th class="no-sort">JULIO</th>
+                                    <th class="no-sort">AGOSTO</th>
+                                    <th class="no-sort">SETIEMBRE</th>
+                                    <th class="no-sort">OCTUBRE</th>
+                                    <th class="no-sort">NOVIEMBRE</th>
+                                    <th class="no-sort">DICIEMBRE</th>
+                                    <th class="no-sort">TOTAL CERTIFICADO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
+    </div>
+    </section>
+</div>
+
+<div class="col-xl-12" align="center">
+    <button class="btn btn-primary width-100 mb-xs" role="button" data-toggle="modal" data-target="#modal-detalle">
+        <i class="glyphicon glyphicon-list"></i> Detalle
+    </button>
+    <button class="btn btn-primary width-100 mb-xs" role="button" data-toggle="modal" data-target="#modal-editar">
+        <i class="glyphicon glyphicon-edit"></i> Editar
+    </button>
+    <button class="btn btn-primary width-100 mb-xs" role="button">
+        <i class="Web Web-trash-o text-primary"></i> Eliminar
+    </button>
+    <button class="btn btn-primary width-100 mb-xs" role="button">
+        <i class="Other Other-file-excel-o text-primary"></i> Exportar
+    </button>
+</div>
+
+
+
+
+
+
+<div class="modal fade modal-ext" id="modal-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                        <h5 class="modal-title" id="myModalLabel">Detalle</h5>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <form>
+                            ACA IRÁ EL DETALLE 
+                        </form>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="modal fade modal-ext col-md-10 " id="modal-editar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                        <h5 class="modal-title" id="myModalLabel">Detalle</h5>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+ <form class="form-horizontal form-label-left" method="post" data-parsley-priority-enabled="false" novalidate="novalidate">
+                <fieldset>
+                    <!-- Primera linea de mi formulario -->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left" for="cmb_partida">Tipo de Partida
+                        </label>
+                        <div class="col-md-4">
+                            <select name="cmb_partida" id="cmb_partida" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of partida" value="{{registro.desc_partida}}">{{registro.desc_partida}}</option>
+                            </select>
+                        </div>
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Red</label>
+                        <div class="col-md-4">
+                            <select name="cmb_red" id="cmb_red" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of red" value="{{registro.cod_red}}">{{registro.desc_red}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <!-- Segunda linea de mi formulario -->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Actividad Presupuestal</label>
+                        <div class="col-md-4">
+                            <select name="cmb_actividad" id="cmb_actividad" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of actividad" value="{{registro.desc_actividad}}">{{registro.desc_actividad}}</option>
+                            </select>
+                        </div>
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left" for="txt_pea">Cantidad de PEA
+                        </label>
+                        <div class="col-md-4">
+                            <input type="text" id="txt_pea" name="txt_pea" class="col-md-2 form-control" data-parsley-type="number" required="required">
+                        </div>
+                    </div>
+
+                    <!-- Tercera linea de mi formulario -->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Fuente de Financiamiento</label>
+                        <div class="col-md-4">
+                            <select id="cmb_fuenteFto" id="cmb_fuenteFto" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of fuenteFto" value="{{registro.id_fuente_fto}}">{{registro.desc_fuente_fto}}</option>
+                        </select>
+                        </div>
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Periodo</label>
+                        <div class="col-md-2">
+                            <input type="text" id="txt_periodo" name="txt_periodo" class="form-control" data-parsley-type="number" required="required">
+                        </div>
+                        <div class="col-md-2">
+                            <select class="select2 form-control" tabindex="-1">
+                                <option value="0">Seleccione...</option>
+                                <option value="1">Días</option>
+                                <option value="2">Mes(es)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cuarta linea de mi formulario-->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Cargo Funcional</label>
+                        <div class="col-md-4">
+                            <select id="cmb_cargoFUncional" name="cmb_cargoFUncional" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of cargoFuncional" id="{{registro.id_cargo_funcional}}">{{registro.desc_cargo_funcional}}</option>
+                            </select>
+                        </div>
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Mes Inicio</label>
+                        <div class="col-md-4">
+                            <select id="cmb_mes" name="cmb_mes" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of mes" value="{{registro.cod_mes}}">{{registro.desc_mes}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Quinta linea de mi formulario-->
+                    <div class="form-group row">
+                        <label for="normal-field" class="col-md-2 form-control-label text-md-left">Cargo de Contratación</label>
+                        <div class="col-md-4">
+                            <select id="cmb_cargoContratacion" name="cmb_cargoContratacion" class="select2 form-control" tabindex="-1" required="required">
+                                <option value="0">Seleccione...</option>
+                                <option *ngFor="let registro of cargoContratacion" id="{{registro.id_cargo_contratacion}}">{{registro.desc_cargo_contratacion}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+            </form>
+<!-- ----------------------------------------------------------------------------------------------------------------------------------- -->
+
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
