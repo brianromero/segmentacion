@@ -28,13 +28,13 @@ import { Helpers } from './../../app/helper';
 export class CroquisylistadoService {
     constructor(private http: Http) {}
     private cargo: string = 'DEPARTAMENTAL';
-    private depaUrl: string = 'http://bromero.inei.com.pe:8000/recargaDepa/';
-    private provUrl: string = 'http://bromero.inei.com.pe:8000/recargaProv/';
-    private distUrl: string = 'http://bromero.inei.com.pe:8000/recargaDis/';
-    private zonaUrl: string = 'http://bromero.inei.com.pe:8000/recargaZona/';
-    private tablaUrlAux: string = 'http://bromero.inei.com.pe:8000/crorecargaTabla01/';
-    private tablaUrlAux2: string = 'http://bromero.inei.com.pe:8000/crorecargaTabla02/';
-    private tablaUrlZip: string = 'http://bromero.inei.com.pe:8000/crodescargarPdf/';
+    private depaUrl: string = 'http://127.0.0.1:8081/recargaDepa/';
+    private provUrl: string = 'http://127.0.0.1:8081/recargaProv/';
+    private distUrl: string = 'http://127.0.0.1:8081/recargaDis/';
+    private zonaUrl: string = 'http://127.0.0.1:8081/recargaZona/';
+    private tablaUrlAux: string = 'http://127.0.0.1:8081/crorecargaTabla01/';
+    private tablaUrlAux2: string = 'http://127.0.0.1:8081/crorecargaTabla02/';
+    private tablaUrlZip: string = 'http://127.0.0.1:8081/crodescargarPdf/';
 
     getDepartamentos(): Observable < Object > {
         return this.http.get(this.depaUrl).map(this.extractData).catch(this.handleError)

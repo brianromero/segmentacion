@@ -10,7 +10,7 @@ import {
   FormsModule
 } from '@angular/forms';
 import { GestiondeOpciones } from './gestion-de-opciones.component';
-import { AccordionModule } from 'ng2-bootstrap/components/accordion';
+//import { AccordionModule } from 'ng2-bootstrap/components/accordion';
 declare var jQuery: any;
 
 const routes: Routes = [{
@@ -19,7 +19,8 @@ const routes: Routes = [{
 }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), CommonModule, FormsModule,AccordionModule],
+  //imports: [RouterModule.forChild(routes), CommonModule, FormsModule,AccordionModule],
+  imports: [RouterModule.forChild(routes), CommonModule, FormsModule],
   declarations: [GestiondeOpciones]
 })
 export default class GestiondeOpcionesModule {}

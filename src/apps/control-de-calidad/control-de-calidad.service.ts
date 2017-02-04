@@ -35,7 +35,7 @@ import {
 export class ControldecalidadService {
     constructor(private http: Http) {}
     private cargo: string = 'DEPARTAMENTAL';
-    private depaUrl: string = 'http://bromero.inei.com.pe:8000/recargaDepa/';
+    /*private depaUrl: string = 'http://bromero.inei.com.pe:8000/recargaDepa/';
     private provUrl: string = 'http://bromero.inei.com.pe:8000/recargaProv/';
     private distUrl: string = 'http://bromero.inei.com.pe:8000/recargaDis/';
     private zonaUrl: string = 'http://bromero.inei.com.pe:8000/recargaZona/';
@@ -46,7 +46,20 @@ export class ControldecalidadService {
     private tablaIndicador: string = 'http://bromero.inei.com.pe:8000/tablaIndicador/';
 
     private guardarObservaciones: string = 'http://bromero.inei.com.pe:8000/tablaIndicador2/';
-    private guardarIndicador: string = 'http://bromero.inei.com.pe:8000/tablaIndicador3/';
+    private guardarIndicador: string = 'http://bromero.inei.com.pe:8000/tablaIndicador3/';*/
+
+    private depaUrl: string = 'http://127.0.0.1:8081/recargaDepa/';
+    private provUrl: string = 'http://127.0.0.1:8081/recargaProv/';
+    private distUrl: string = 'http://127.0.0.1:8081/recargaDis/';
+    private zonaUrl: string = 'http://127.0.0.1:8081/recargaZona/';
+    private tablaUrlAux: string = 'http://127.0.0.1:8081/calidadrecargaTabla01/';
+    private tablaUrlAux2: string = 'http://127.0.0.1:8081/calidadrecargaTabla02/';
+    private tablaUrlAux4: string = 'http://127.0.0.1:8081/CalidadList/';
+    private tablaReporte: string = 'http://127.0.0.1:8081/tablaReporte/';
+    private tablaIndicador: string = 'http://127.0.0.1:8081/tablaIndicador/';
+
+    private guardarObservaciones: string = 'http://127.0.0.1:8081/tablaIndicador2/';
+    private guardarIndicador: string = 'http://127.0.0.1:8081/tablaIndicador3/';
 
     getCargaDepaInicial(): Observable < Object >{
         return this.http.get(this.depaUrl).map(this.extractData).catch(this.handleError)

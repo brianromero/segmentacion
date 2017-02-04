@@ -4,9 +4,9 @@ import {
 import {
     Helpers
 } from './../../app/helper';
-import {
+/*import {
     AccordionComponent
-} from 'ng2-bootstrap/components/accordion';
+} from 'ng2-bootstrap/components/accordion';*/
 import {
     GestionOpcionesService
 } from './service';
@@ -18,7 +18,8 @@ declare var jQuery: any;
 
 @Component({
     templateUrl: 'gestion-de-opciones.html',
-    providers: [AccordionComponent, GestionOpcionesService]
+    //providers: [AccordionComponent, GestionOpcionesService]
+    providers: [GestionOpcionesService]
 })
 
 export class GestiondeOpciones {

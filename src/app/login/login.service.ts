@@ -15,7 +15,8 @@ import {Helpers} from './../helper';
 export class LoginService {
     constructor(private http: Http) {}
 
-    private loginUrl: string = `${Settings.HOST()}authentication/login/`;
+    private loginUrl: string = `${Settings.HOST()}authenticate/`;//login/`;
+    //private loginUrl: string = `${Settings.HOST()}authentication/login/`;
     private auth;
 
     authenticate(queryparameters:string): Observable < Object > {

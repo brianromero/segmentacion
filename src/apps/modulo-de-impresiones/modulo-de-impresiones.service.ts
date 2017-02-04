@@ -44,18 +44,19 @@ export class ImpresionesService {
     private tablaUrlAux2: string = 'http://bromero.inei.com.pe:8000/crorecargaTabla02/';
     private tablaUrlZip: string = 'http://bromero.inei.com.pe:8000/crodescargarPdf/';*/
 
-    private depaUrl: string = 'http://bromero.inei.com.pe:8000/recargaDepa/';
-    private provUrl: string = 'http://bromero.inei.com.pe:8000/recargaProv/';
-    private distUrl: string = 'http://bromero.inei.com.pe:8000/recargaDis/';
-    private zonaUrl: string = 'http://bromero.inei.com.pe:8000/recargaZona/';
-    private aeuUrl: string = 'http://bromero.inei.com.pe:8000/recargaAeu/';
-    private tablaReporte: string = 'http://bromero.inei.com.pe:8000/tablaReporte/';
+    private depaUrl: string = 'http://127.0.0.1:8081/recargaDepa/';
+    private provUrl: string = 'http://127.0.0.1:8081/recargaProv/';
+    private distUrl: string = 'http://127.0.0.1:8081/recargaDis/';
+    private zonaUrl: string = 'http://127.0.0.1:8081/recargaZona/';
+    private aeuUrl: string = 'http://127.0.0.1:8081/recargaAeu/';
+    private tablaReporte: string = 'http://127.0.0.1:8081/tablaReporte/';
     // private a: string = 'http://172.16.2.185:8000/impresionesaeus/';
-    private a: string = 'http://172.16.2.185:8000/cargarzonas/';
-    private tablaAes: string = 'http://172.16.2.185:8000/cargaraes/';
-    private cantAesUrl: string = 'http://172.16.2.185:8000/cantidadaeus/';   //cargaraes paginas
-    private AesUrl: string = 'http://172.16.2.185:8000/cargaraes/';
-    private NumPaginas: string = 'http://172.16.2.185:8000/paginas/';
+    private a: string = 'http://127.0.0.1:8081/cargarzonas/';
+    private tablaAes: string = 'http://127.0.0.1:8081/cargaraes/';
+    private cantAesUrl: string = 'http://127.0.0.1:8081/cantidadaeus/';   //cargaraes paginas
+    private AesUrl: string = 'http://127.0.0.1:8081/cargaraes/';
+    private NumPaginas: string = 'http://127.0.0.1:8081/paginas/';
+    
     getCargaDepaInicial(): Observable < Object >{
         return this.http.get(this.depaUrl).map(this.extractData).catch(this.handleError)
     }

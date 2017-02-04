@@ -3,7 +3,7 @@ export class Settings {
         //casa
         //return 'http://localhost:8000/';
         //inei
-        return 'http://bromero.inei.com.pe:8050/';
+        return 'http://127.0.0.1:8082/';
     }
     public static HOST_LOCAL(): string {
         return 'http://lfarfan.inei.com.pe:85/';
